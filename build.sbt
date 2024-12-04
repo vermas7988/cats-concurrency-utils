@@ -1,5 +1,3 @@
-import Dependencies.*
-
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
 ThisBuild / scalaVersion := "2.13.15"
@@ -19,12 +17,7 @@ lazy val root = (project in file("."))
     name := "fetch-api",
     scalacOptions ++= List("-Ymacro-annotations", "-Yrangepos", "-Wconf:cat=unused:info"),
     resolvers ++= Resolver.sonatypeOssRepos("snapshots"),
-    libraryDependencies ++= Seq(
-      CompilerPlugins.betterMonadicFor,
-      CompilerPlugins.kindProjector,
-      Libraries.cats,
-      Libraries.catsEffect
-    )
+    libraryDependencies += "org.typelevel" %% "cats-effect" % "3.5.7"
   )
 
 addCommandAlias("fmt", ";tpolecatCiMode;scalafmtSbt;scalafmtAll")
