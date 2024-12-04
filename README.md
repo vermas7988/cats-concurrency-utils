@@ -4,7 +4,7 @@ A Scala library for managing requests and their corresponding responses in a dec
 
 ## Overview
 
-The `RequestRegistry` is a utility to manage asynchronous requests and responses. It leverages Cats Effect's `Deferred` to handle responses in a decoupled manner, allowing parts of a program to make requests and other parts to provide responses.
+The `RequestRegistry` is a utility to manage asynchronous requests and responses. It leverages Cats Effect's `Deferred` to handle responses in a decoupled manner, allowing parts of a program to submit some requestIDs and other parts to receive responses and satisfy the requests submitted in this registry.
 
 ## Features
 
