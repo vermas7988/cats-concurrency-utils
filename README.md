@@ -1,10 +1,14 @@
-# 🚀 RequestRegistry Library
+# 🚀 Common Concurrency utils with cats effect
 
-A Scala library for managing requests and their corresponding responses in a decoupled manner using `cats.effect.Deferred`.
 
 ## 📖 Overview
 
-The `RequestRegistry` is a utility to manage asynchronous requests and responses. It leverages Cats Effect's `Deferred` to handle responses in a decoupled manner, allowing parts of a program to submit some requestIDs and other parts to receive responses and satisfy the requests submitted in this registry.
+- The `RequestRegistry` is a utility to manage asynchronous requests and responses. It leverages Cats Effect's `Deferred` to handle responses in a decoupled manner, allowing parts of a program to submit some requestIDs and other parts to receive responses and satisfy the requests submitted in this registry.
+- `LoadBalancer` is a utility to divide and queue work to different servers.
+
+Docs WIP but code is readable and api is user-friendly.
+
+Not published on maven yet, just copy paste the examples and tailor according to your project.
 
 ## ✨ Features
 
