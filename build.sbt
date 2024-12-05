@@ -11,10 +11,7 @@ resolvers ++= Resolver.sonatypeOssRepos("snapshots")
 
 lazy val root = (project in file("."))
   .settings(
-    name := "cats-request-registry"
-  )
-  .settings(
-    name := "fetch-api",
+    name := "cats-concurrency-utils",
     scalacOptions ++= List("-Ymacro-annotations", "-Yrangepos", "-Wconf:cat=unused:info"),
     resolvers ++= Resolver.sonatypeOssRepos("snapshots"),
     libraryDependencies += "org.typelevel" %% "cats-effect" % "3.5.7"
