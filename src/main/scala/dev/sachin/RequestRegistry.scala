@@ -7,9 +7,7 @@ import cats.effect.{ Deferred, IO, Ref }
   * @tparam RequestID The type of the request identifier.
   * @tparam Response The type of the response.
   */
-class RequestRegistry[RequestID, Response] private {
-
-  private val map: Ref[IO, Map[RequestID, Deferred[IO, Response]]] = Ref.unsafe(Map.empty)
+class RequestRegistry[RequestID, Response] private (map: Ref[IO, Map[RequestID, Deferred[IO, Response]]]) {
 
   /**
     * Registers a new computation/IO by its `requestID` and returns a `Deferred` that can
@@ -27,7 +25,9 @@ class RequestRegistry[RequestID, Response] private {
     */
   def register(key: RequestID): IO[Deferred[IO, Response]] =
     Deferred[IO, Response].flatMap { deferred =>
-      map.update(_ + (key -> deferred)).as(deferred)
+      map.modify { m =>
+        (m + (key -> deferred), IO.pure(deferred))
+      }.flatten
     }
 
   /**
@@ -58,7 +58,7 @@ object RequestRegistry {
     * A registry to manage requests and their corresponding responses using Deferred.
     *
     * This registry can be created once in program and passed to different parts of program. You can
-    * e.g. make some request, register a key using `registry.registry(key)` and receive a Cats `Deffered`
+    * e.g. make some request, register a key using `registry.registry(key)` and receive a Cats `Deferred`
     * in return. Some other part of program can satisfy the registry with a response for the same key e.g.
     * `registry.complete(key, response)`.
     *
@@ -68,6 +68,7 @@ object RequestRegistry {
     * }}}
     *
     */
-  def apply[RequestID, Response](): IO[RequestRegistry[RequestID, Response]] = IO(new RequestRegistry)
+  def apply[RequestID, Response](): IO[RequestRegistry[RequestID, Response]] =
+    Ref.of[IO, Map[RequestID, Deferred[IO, Response]]](Map.empty).map(new RequestRegistry(_))
 
 }
